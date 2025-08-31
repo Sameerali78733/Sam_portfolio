@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sameer | Data Analyst </title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            min-height: 100vh;
+        }
+        
+        .sidebar {
+            background-color: var(--primary);
+            color: white;
+            padding: 20px;
+            position: fixed;
+            width: 250px;
+            height: 100%;
+            overflow-y: auto;
+        }
+        
+        .main-content {
+            grid-column: 2;
+            padding: 20px;
+        }
+        
+        .profile-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--secondary);
+            margin: 0 auto 15px;
+            display: block;
+        }
+        
+        .card-dashboard {
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            height: 100%;
+            border: none;
+        }
+        
+        .card-dashboard:hover {
+            transform: translateY(-5px);
+        }
+        
+        .section-title {
+            border-left: 4px solid var(--secondary);
+            padding-left: 10px;
+            margin: 25px 0 20px;
+        }
+        
+        .skill-bar {
+            height: 10px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        
+        .skill-progress {
+            height: 100%;
+            border-radius: 5px;
+            background-color: var(--secondary);
+        }
+        
+        .nav-link {
+            color: rgba(255,255,255,0.8);
+            border-left: 3px solid transparent;
+            padding: 10px 15px;
+            margin-bottom: 5px;
+            border-radius: 0;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            color: white;
+            background-color: rgba(255,255,255,0.1);
+            border-left: 3px solid var(--secondary);
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 250px;
+            width: 100%;
+        }
+        
+        /* New styles for Road Accident Analysis */
+        .metric-card {
+            background: linear-gradient(135deg, #3498db, #2c3e50);
+            color: white;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            height: 100%;
+        }
+        
+        .metric-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .metric-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+            
+            .main-content {
+                grid-column: 1;
+            }
+            
+            .metric-value {
+                font-size: 1.5rem;
+            }
+            .metric-player {
+                font-size: 0.8rem;
+                margin-top: 5px;
+                font-style: italic;
+            }
+
+            .list-group-item {
+                padding: 0.5rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <img src="image.png" alt="Sameer" class="profile-img">
+            <h4 class="text-center mb-3">Sameer</h4>
+            <p class="text-center mb-4">Data Analyst</p>
+            
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#summary"><i class="fas fa-user me-2"></i> Summary</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#education"><i class="fas fa-graduation-cap me-2"></i> Education</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#skills"><i class="fas fa-chart-bar me-2"></i> Skills</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#experience"><i class="fas fa-briefcase me-2"></i> Experience</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#projects"><i class="fas fa-code-branch me-2"></i> Projects</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#certifications"><i class="fas fa-certificate me-2"></i> Certifications</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#contact"><i class="fas fa-envelope me-2"></i> Contact</a>
+                </li>
+            </ul>
+            
+            <div class="mt-5">
+                <h6>Connect with me</h6>
+                <div class="d-flex">
+                    <a href="https://www.linkedin.com/" class="text-light me-3"><i class="fab fa-linkedin fa-lg"></i></a>
+                    <a href="https://github.com/" class="text-light me-3"><i class="fab fa-github fa-lg"></i></a>
+                    <a href="https://x.com/" class="text-light me-3"><i class="fab fa-twitter fa-lg"></i></a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Summary Section -->
+            <section id="summary" class="mb-5">
+                <h3 class="section-title">Professional Summary</h3>
+                <div class="card card-dashboard">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <p>Aspiring Data Analyst with a solid foundation in data manipulation, predictive modeling, and reporting using Python and industry-standard tools. Adept at transforming raw data into actionable insights through advanced data visualization and statistical techniques.</p>
+                                <div class="row mt-4">
+                                    <div class="col-sm-6">
+                                        <p><i class="fas fa-phone me-2 text-primary"></i> +91 97590 13849</p>
+                                        <p><i class="fas fa-envelope me-2 text-primary"></i> samearall78733@gmail.com</p>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <p><i class="fas fa-map-marker-alt me-2 text-primary"></i> Amroha, India 244221</p>
+                                        <p><i class="fas fa-language me-2 text-primary"></i> Hindi, English</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="chart-container">
+                                    <canvas id="languageChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Education Section -->
+            <section id="education" class="mb-5">
+                <h3 class="section-title">Education</h3>
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <div class="card card-dashboard">
+                            <div class="card-body">
+                                <h5>B.Tech, Computer Science With Specialization Data Science</h5>
+                                <p class="text-muted">Moradabad Institute Of Technology</p>
+                                <p>07/2022 - 07/2026</p>
+                                <p>Moradabad</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <div class="card card-dashboard">
+                            <div class="card-body">
+                                <h5>Intermediate, PCM</h5>
+                                <p class="text-muted">Jyoti Shiksha Sadan Inter College</p>
+                                <p>05/2019 - 05/2021</p>
+                                <p>Amroha</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card card-dashboard mt-4">
+                    <div class="card-body">
+                        <div class="chart-container">
+                            <canvas id="educationTimeline"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Skills Section -->
+            <section id="skills" class="mb-5">
+                <h3 class="section-title">Skills & Expertise</h3>
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <div class="card card-dashboard">
+                            <div class="card-body">
+                                <h5 class="card-title">Technical Skills</h5>
+                                <div class="mb-3">
+                                    <div class="d-flex justify-content-between">
+                                        <span>Python</span>
+                                        <span>70%</span>
+                                    </div>
+                                    <div class="skill-bar">
+                                        <div class="skill-progress" style="width: 70%"></div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="d-flex justify-content-between">
+                                        <span>Machine Learning</span>
+                                        <span>60%</span>
+                                    </div>
+                                    <div class="skill-bar">
+                                        <div class="skill-progress" style="width: 60%"></div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="d-flex justify-content-between">
+                                        <span>SQL</span>
+                                        <span>70%</span>
+                                    </div>
+                                    <div class="skill-bar">
+                                        <div class="skill-progress" style="width: 70%"></div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="d-flex justify-content-between">
+                                        <span>Power BI</span>
+                                        <span>70%</span>
+                                    </div>
+                                    <div class="skill-bar">
+                                        <div class="skill-progress" style="width: 70%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <div class="card card-dashboard">
+                            <div class="card-body">
+                                <h5 class="card-title">Skills Distribution</h5>
+                                <div class="chart-container">
+                                    <canvas id="skillsChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Experience Section -->
+            <section id="experience" class="mb-5">
+                <h3 class="section-title">Professional Experience</h3>
+                <div class="card card-dashboard">
+                    <div class="card-body">
+                        <h5>Newspaper Layout Designer</h5>
+                        <p class="text-muted">AJHINDIDAILY Newspaper | 06/2022 - 12/2024</p>
+                        <p>Designs the visual layout of newspapers by arranging text, images, and ads in an attractive and reader-friendly format in coordination with editorial teams.</p>
+                        
+                        <div class="mt-4">
+                            <h6>Key Responsibilities:</h6>
+                            <ul>
+                                <li>Created visually appealing newspaper layouts</li>
+                                <li>Coordinated with editorial teams for content placement</li>
+                                <li>Optimized layouts for reader engagement</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Projects Section -->
+            <section id="projects" class="mb-5">
+                <h3 class="section-title">Projects</h3>
+                <div class="row">
+                    <!-- Updated Road Accident Analysis Card -->
+                    <div class="col-md-12 mb-4">
+                        <div class="card card-dashboard">
+                            <div class="card-body">
+                                <h4>Road Accident Analysis (2000-2024)</h4>
+                                <p class="text-muted">Comprehensive analysis of road accident data to identify patterns and suggest preventive measures.</p>
+                                
+                                <!-- Key Metrics -->
+                                <div class="row mt-4">
+                                    <div class="col-md-3 col-6 mb-3">
+                                        <div class="metric-card">
+                                            <div class="metric-value">263K</div>
+                                            <div class="metric-label">Total Deaths</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-6 mb-3">
+                                        <div class="metric-card">
+                                            <div class="metric-value">1255K</div>
+                                            <div class="metric-label">Total Injuries</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-6 mb-3">
+                                        <div class="metric-card">
+                                            <div class="metric-value">132K</div>
+                                            <div class="metric-label">Total Accidents</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-6 mb-3">
+                                        <div class="metric-card">
+                                            <div class="metric-value">330K</div>
+                                            <div class="metric-label">Vehicles Involved</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Charts Row -->
+                                <div class="row mt-4">
+                                    <div class="col-md-6 mb-4">
+                                        <h5>Deaths by Accident Severity</h5>
+                                        <div class="chart-container">
+                                            <canvas id="severityChart"></canvas>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-4">
+                                        <h5>Deaths by Age Group</h5>
+                                        <div class="chart-container">
+                                            <canvas id="ageGroupChart"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Additional Info -->
+                                <div class="row mt-4">
+                                    <div class="col-md-12">
+                                        <h5>Key Findings</h5>
+                                        <ul>
+                                            <li>Most accidents occur in the 26-40 age group (20.2% of total deaths)</li>
+                                            <li>Severe accidents account for 33.42% of all incidents</li>
+                                            <li>Moderate accidents represent 33.22% of cases</li>
+                                            <li>Young drivers (18-25) account for 19.9% of fatalities</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                
+                                <!-- Technologies -->
+                                <div class="mt-3">
+                                    <span class="badge bg-primary">Python</span>
+                                    <span class="badge bg-info">PowerBI</span>
+                                    <span class="badge bg-success">Data Visualization</span>
+                                    <span class="badge bg-warning">Pandas</span>
+                                    <span class="badge bg-danger">Statistical Analysis</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                   <div class="col-md-12 mb-4">
+    <div class="card card-dashboard">
+        <div class="card-body">
+            <h4>TATA IPL Analysis (2022 Season)</h4>
+            <p class="text-muted">Comprehensive analysis of IPL cricket data to identify performance trends, player statistics, and team strategies.</p>
+            
+            <!-- Key Metrics -->
+            <div class="row mt-4">
+                <div class="col-md-3 col-6 mb-3">
+                    <div class="metric-card" style="background: linear-gradient(135deg, #ff9933, #e53935);">
+                        <div class="metric-value">863</div>
+                        <div class="metric-label">Orange Cap (Runs)</div>
+                        <div class="metric-player">JC Buttler</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 mb-3">
+                    <div class="metric-card" style="background: linear-gradient(135deg, #6a0dad, #4b0082);">
+                        <div class="metric-value">27</div>
+                        <div class="metric-label">Purple Cap (Wickets)</div>
+                        <div class="metric-player">YS Chahal</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 mb-3">
+                    <div class="metric-card" style="background:linear-gradient(135deg, #e53935, #b71c1c);">
+                        <div class="metric-value">1062</div>
+                        <div class="metric-label">Total Sixes</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 mb-3">
+                    <div class="metric-card" style="background: linear-gradient(135deg, #004ba0, #00264d);">
+                        <div class="metric-value">Gujarat Titans</div>
+                        <div class="metric-label">Title Winner</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Charts Row -->
+            <div class="row mt-4">
+                <div class="col-md-6 mb-4">
+                    <h5>Total Wins by Team</h5>
+                    <div class="chart-container">
+                        <canvas id="teamWinsChart"></canvas>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <h5>Match Results by Type</h5>
+                    <div class="chart-container">
+                        <canvas id="resultTypeChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Additional Stats -->
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <h5>Top Performances</h5>
+                    <ul class="list-group">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Most Sixes in Season
+                            <span class="badge bg-primary">1062</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Matches Won Batting First
+                            <span class="badge bg-success">37 (50%)</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Matches Won Chasing
+                            <span class="badge bg-info">37 (50%)</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h5>Venue Performance</h5>
+                    <ul class="list-group">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Wankhede Stadium
+                            <span class="badge bg-secondary">13 wins</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            DY Patil Stadium
+                            <span class="badge bg-secondary">10 wins</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Brabourne Stadium
+                            <span class="badge bg-secondary">8 wins</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Technologies -->
+            <div class="mt-4">
+                <span class="badge bg-primary">Python</span>
+                <span class="badge bg-info">Pandas</span>
+                <span class="badge bg-success">Data Analysis</span>
+                <span class="badge bg-warning">Data Visualization</span>
+                <span class="badge bg-danger">PowerBI</span>
+            </div>
+        </div>
+    </div>
+</div>
+                    <div class="col-md-12 mb-4">
+    <div class="card card-dashboard">
+        <div class="card-body">
+            <h4>Walmart Store Sales Analysis</h4>
+            <p class="text-muted">Comprehensive analysis of Walmart sales data to identify trends, seasonal patterns, and optimize inventory management.</p>
+            
+            <!-- Key Metrics -->
+            <div class="row mt-4">
+                <div class="col-md-3 col-6 mb-3">
+                    <div class="metric-card" style="background: linear-gradient(135deg, #0071ce, #004a94);">
+                        <div class="metric-value">10K</div>
+                        <div class="metric-label">SALES</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 mb-3">
+                    <div class="metric-card" style="background: linear-gradient(135deg, #ffc220, #ff9e1b);">
+                        <div class="metric-value">5K</div>
+                        <div class="metric-label">QUANTITY</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 mb-3">
+                    <div class="metric-card" style="background: linear-gradient(135deg, #7cbb42, #5a9c30);">
+                        <div class="metric-value">27.48K</div>
+                        <div class="metric-label">PROFIT</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 mb-3">
+                    <div class="metric-card" style="background: linear-gradient(135deg, #e53935, #b71c1c);">
+                        <div class="metric-value">0.34M</div>
+                        <div class="metric-label">SALES BY STATE</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Charts Row -->
+            <div class="row mt-4">
+                <div class="col-md-4 mb-4">
+                    <h5>Sales by Category</h5>
+                    <div class="chart-container">
+                        <canvas id="salesCategoryChart"></canvas>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <h5>Sales by Segment</h5>
+                    <div class="chart-container">
+                        <canvas id="salesSegmentChart"></canvas>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <h5>Sales by Payment Mode</h5>
+                    <div class="chart-container">
+                        <canvas id="paymentModeChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Additional Stats -->
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <h5>Sales by SubCategory</h5>
+                    <ul class="list-group">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Chairs
+                            <span class="badge bg-primary">46K</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Binders
+                            <span class="badge bg-success">43K</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Phones
+                            <span class="badge bg-info">43K</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Office Supplies
+                            <span class="badge bg-warning">40K</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h5>Sales by Ship Mode</h5>
+                    <ul class="list-group">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Standard Class
+                            <span class="badge bg-secondary">31K</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Second Class
+                            <span class="badge bg-secondary">16K</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            First Class
+                            <span class="badge bg-secondary">16K</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Same Day
+                            <span class="badge bg-secondary">7K</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Regional Performance -->
+            <div class="row mt-4">
+                <div class="col-md-12">
+                    <h5>Regional Performance</h5>
+                    <div class="d-flex justify-content-between flex-wrap">
+                        <span class="badge bg-primary mb-2">Central: $78K</span>
+                        <span class="badge bg-success mb-2">East: High Performance</span>
+                        <span class="badge bg-info mb-2">South: Steady Growth</span>
+                        <span class="badge bg-warning mb-2">West: Emerging Market</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Technologies -->
+            <div class="mt-4">
+                <span class="badge bg-primary">SQL</span>
+                <span class="badge bg-info">Power BI</span>
+                <span class="badge bg-success">Data Modeling</span>
+                <span class="badge bg-warning">Data Visualization</span>
+                <span class="badge bg-danger">Inventory Optimization</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+                    <div class="col-md-6 mb-4">
+                        <div class="card card-dashboard">
+                            <div class="card-body">
+                                <h5>College Assistant Chatbot</h5>
+                                <p>AI-powered chatbot to assist college students with queries about courses, schedules, and campus facilities.</p>
+                                <div class="chart-container">
+                                    <canvas id="chatbotChart"></canvas>
+                                </div>
+                                <div class="mt-3">
+                                    <span class="badge bg-primary">Python</span>
+                                    <span class="badge bg-info">NLP</span>
+                                    <span class="badge bg-success">Machine Learning</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Certifications Section -->
+            <section id="certifications" class="mb-5">
+                <h3 class="section-title">Certifications</h3>
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <div class="card card-dashboard">
+                            <div class="card-body">
+                                <h5>Programming in Java</h5>
+                                <p class="text-muted">NPTEL</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <div class="card card-dashboard">
+                            <div class="card-body">
+                                <h5>Machine Learning</h5>
+                                <p class="text-muted">SimplLearn | SkillUP</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <div class="card card-dashboard">
+                            <div class="card-body">
+                                <h5>Power BI for Beginners</h5>
+                                <p class="text-muted">SimplLearn | SkillUP</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <div class="card card-dashboard">
+                            <div class="card-body">
+                                <h5>Python Essentials 1</h5>
+                                <p class="text-muted">Cisco Networking Academy</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Contact Section -->
+            <section id="contact" class="mb-5">
+                <h3 class="section-title">Contact Me</h3>
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="card card-dashboard">
+                            <div class="card-body">
+                                <form action="submit_form.php" method="POST">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="name" class="form-label">Name</label>
+                                            <input type="text" class="form-control" id="name" name="name" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="email" class="form-label">Email</label>
+                                            <input type="email" class="form-control" id="email" name="email" required>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="subject" class="form-label">Subject</label>
+                                        <input type="text" class="form-control" id="subject" name="subject" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="message" class="form-label">Message</label>
+                                        <textarea class="form-control" id="message" name="message" rows="4" required></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Send Message</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card card-dashboard">
+                            <div class="card-body">
+                                <h5>Get in Touch</h5>
+                                <p><i class="fas fa-phone me-2"></i> +91 97590 13849</p>
+                                <p><i class="fas fa-envelope me-2"></i> samearall78733@gmail.com</p>
+                                <p><i class="fas fa-map-marker-alt me-2"></i> Amroha, India 244221</p>
+                                <hr>
+                                <h5>Follow Me</h5>
+                                <div class="d-flex">
+                                    <a href="https://www.linkedin.com/" class="me-3 text-dark"><i class="fab fa-linkedin fa-2x"></i></a>
+                                    <a href="https://github.com/" class="me-3 text-dark"><i class="fab fa-github fa-2x"></i></a>
+                                    <a href="https://x.com/" class="me-3 text-dark"><i class="fab fa-twitter fa-2x"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Language Chart
+        const languageCtx = document.getElementById('languageChart').getContext('2d');
+        const languageChart = new Chart(languageCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Hindi', 'English'],
+                datasets: [{
+                    data: [90, 70],
+                    backgroundColor: ['#3498db', '#2ecc71'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Language Proficiency'
+                    }
+                }
+            }
+        });
+
+        // Skills Chart
+        const skillsCtx = document.getElementById('skillsChart').getContext('2d');
+        const skillsChart = new Chart(skillsCtx, {
+            type: 'radar',
+            data: {
+                labels: ['Python', 'SQL', 'Machine Learning', 'Power BI', 'Data Cleaning', 'Data Visualization'],
+                datasets: [{
+                    label: 'Skill Level',
+                    data: [70, 70, 60, 70, 80, 75],
+                    backgroundColor: 'rgba(52, 152, 219, 0.2)',
+                    borderColor: 'rgba(52, 152, 219, 1)',
+                    pointBackgroundColor: 'rgba(52, 152, 219, 1)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgba(52, 152, 219, 1)'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    r: {
+                        angleLines: {
+                            display: true
+                        },
+                        suggestedMin: 0,
+                        suggestedMax: 100
+                    }
+                }
+            }
+        });
+
+        // Education Timeline
+        const educationCtx = document.getElementById('educationTimeline').getContext('2d');
+        const educationChart = new Chart(educationCtx, {
+            type: 'bar',
+            data: {
+                labels: ['2018-2019', '2019-2021', '2022-2026'],
+                datasets: [{
+                    label: 'Education Timeline',
+                    data: [71.83, 76.00, 76.64],
+                    backgroundColor: [
+                        'rgba(52, 152, 219, 0.7)',
+                        'rgba(46, 204, 113, 0.7)',
+                        'rgba(155, 89, 182, 0.7)'
+                    ],
+                    borderColor: [
+                        'rgba(52, 152, 219, 1)',
+                        'rgba(46, 204, 113, 1)',
+                        'rgba(155, 89, 182, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    title: {
+                        display: true,
+                        text: 'Academic Performance Over Time'
+                    }
+                }
+            }
+        });
+
+        // Severity Chart for Road Accident Analysis
+        const severityCtx = document.getElementById('severityChart').getContext('2d');
+        const severityChart = new Chart(severityCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Severe (33.42%)', 'Moderate (33.22%)', 'Minor (19.9%)', 'Fatal (13.46%)'],
+                datasets: [{
+                    data: [88, 87, 52, 36],
+                    backgroundColor: [
+                        'rgba(231, 76, 60, 0.8)',
+                        'rgba(241, 196, 15, 0.8)',
+                        'rgba(52, 152, 219, 0.8)',
+                        'rgba(46, 204, 113, 0.8)'
+                    ],
+                    borderColor: [
+                        'rgba(231, 76, 60, 1)',
+                        'rgba(241, 196, 15, 1)',
+                        'rgba(52, 152, 219, 1)',
+                        'rgba(46, 204, 113, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+
+        // Age Group Chart for Road Accident Analysis
+        const ageGroupCtx = document.getElementById('ageGroupChart').getContext('2d');
+        const ageGroupChart = new Chart(ageGroupCtx, {
+            type: 'pie',
+            data: {
+                labels: ['18-25 (19.9%)', '26-40 (20.2%)', '41-60 (20.1%)', '61+ (19.9%)', '<18 (20.0%)'],
+                datasets: [{
+                    data: [52, 53, 53, 52, 53],
+                    backgroundColor: [
+                        'rgba(52, 152, 219, 0.8)',
+                        'rgba(155, 89, 182, 0.8)',
+                        'rgba(46, 204, 113, 0.8)',
+                        'rgba(241, 196, 15, 0.8)',
+                        'rgba(230, 126, 34, 0.8)'
+                    ],
+                    borderColor: [
+                        'rgba(52, 152, 219, 1)',
+                        'rgba(155, 89, 182, 1)',
+                        'rgba(46, 204, 113, 1)',
+                        'rgba(241, 196, 15, 1)',
+                        'rgba(230, 126, 34, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+
+            // Team Wins Chart
+    const teamWinsCtx = document.getElementById('teamWinsChart').getContext('2d');
+    const teamWinsChart = new Chart(teamWinsCtx, {
+        type: 'bar',
+        data: {
+            labels: ['GT', 'RR', 'LSG', 'RCB', 'DC', 'PKS', 'KKR', 'SRH', 'CSK', 'MI'],
+            datasets: [{
+                label: 'Total Wins',
+                data: [12, 10, 9, 9, 7, 7, 6, 6, 4, 4],
+                backgroundColor: [
+                    'rgba(200, 40, 55, 0.8)',
+                    'rgba(0, 81, 158, 0.8)',
+                    'rgba(0, 102, 179, 0.8)',
+                    'rgba(236, 28, 36, 0.8)',
+                    'rgba(0, 102, 179, 0.8)',
+                    'rgba(237, 27, 47, 0.8)',
+                    'rgba(58, 32, 122, 0.8)',
+                    'rgba(255, 130, 0, 0.8)',
+                    'rgba(255, 217, 0, 0.8)',
+                    'rgba(0, 83, 155, 0.8)'
+                ],
+                borderColor: [
+                    'rgba(200, 40, 55, 1)',
+                    'rgba(0, 81, 158, 1)',
+                    'rgba(0, 102, 179, 1)',
+                    'rgba(236, 28, 36, 1)',
+                    'rgba(0, 102, 179, 1)',
+                    'rgba(237, 27, 47, 1)',
+                    'rgba(58, 32, 122, 1)',
+                    'rgba(255, 130, 0, 1)',
+                    'rgba(255, 217, 0, 1)',
+                    'rgba(0, 83, 155, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Number of Wins'
+                    }
+                },
+                x: {
+                    ticks: {
+                        maxRotation: 45,
+                        minRotation: 45
+                    }
+                }
+            }
+        }
+    });
+
+    // Result Type Chart
+    const resultTypeCtx = document.getElementById('resultTypeChart').getContext('2d');
+    const resultTypeChart = new Chart(resultTypeCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Batting First', 'Chasing'],
+            datasets: [{
+                data: [37, 37],
+                backgroundColor: [
+                    'rgba(54, 162, 235, 0.8)',
+                    'rgba(255, 99, 132, 0.8)'
+                ],
+                borderColor: [
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 99, 132, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }
+    });
+
+         // Sales by Category Chart
+    const salesCategoryCtx = document.getElementById('salesCategoryChart').getContext('2d');
+    const salesCategoryChart = new Chart(salesCategoryCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Furniture', 'Technology', 'Office Supplies'],
+            datasets: [{
+                data: [150, 110, 90],
+                backgroundColor: [
+                    'rgba(54, 162, 235, 0.8)',
+                    'rgba(255, 99, 132, 0.8)',
+                    'rgba(255, 206, 86, 0.8)'
+                ],
+                borderColor: [
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(255, 206, 86, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }
+    });
+
+    // Sales by Segment Chart
+    const salesSegmentCtx = document.getElementById('salesSegmentChart').getContext('2d');
+    const salesSegmentChart = new Chart(salesSegmentCtx, {
+        type: 'pie',
+        data: {
+            labels: ['Consumer (48%)', 'Corporate (33%)', 'Home Office (20%)'],
+            datasets: [{
+                data: [48, 33, 20],
+                backgroundColor: [
+                    'rgba(75, 192, 192, 0.8)',
+                    'rgba(153, 102, 255, 0.8)',
+                    'rgba(255, 159, 64, 0.8)'
+                ],
+                borderColor: [
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }
+    });
+
+    // Payment Mode Chart
+    const paymentModeCtx = document.getElementById('paymentModeChart').getContext('2d');
+    const paymentModeChart = new Chart(paymentModeCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['COD (40%)', 'Online (39%)', 'Cards (20%)'],
+            datasets: [{
+                data: [40, 39, 20],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.8)',
+                    'rgba(54, 162, 235, 0.8)',
+                    'rgba(255, 206, 86, 0.8)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }
+    });
+
+        // Chatbot Chart
+        const chatbotCtx = document.getElementById('chatbotChart').getContext('2d');
+        const chatbotChart = new Chart(chatbotCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Answered', 'Referred', 'Unanswered'],
+                datasets: [{
+                    label: 'Query Resolution',
+                    data: [75, 15, 10],
+                    backgroundColor: [
+                        'rgba(54, 162, 235, 0.7)',
+                        'rgba(255, 206, 86, 0.7)',
+                        'rgba(255, 99, 132, 0.7)'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Remove active class from all links
+                document.querySelectorAll('.nav-link').forEach(item => {
+                    item.classList.remove('active');
+                });
+                
+                // Add active class to clicked link
+                this.classList.add('active');
+                
+                // Scroll to target section
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                targetSection.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>
